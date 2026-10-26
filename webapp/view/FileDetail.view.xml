@@ -1,0 +1,67 @@
+<mvc:View
+	controllerName="com.duhamel.gdrivemanager.controller.FileDetail"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Page id="detailPage" title="{i18n>detailTitle}" showNavButton="true" navButtonPress=".onNavBack"
+		busy="{detail>/busy}" class="gdPage">
+		<headerContent>
+			<Button icon="sap-icon://palette" tooltip="{i18n>toggleTheme}" press=".onToggleTheme" />
+		</headerContent>
+		<content>
+			<VBox class="sapUiResponsiveMargin">
+				<HBox alignItems="Center" class="sapUiSmallMarginBottom">
+					<core:Icon src="{detail>/file/typeIcon}" size="2.5rem" class="sapUiSmallMarginEnd gdDetailIcon" />
+					<VBox>
+						<Title text="{detail>/file/name}" level="H2" wrapping="true" />
+						<ObjectStatus text="{detail>/file/typeText}" state="Information" />
+					</VBox>
+				</HBox>
+
+				<Panel class="gdPanel">
+					<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
+						labelSpanM="4" labelSpanS="12" columnsXL="1" columnsL="1" columnsM="1">
+						<Label text="{i18n>fileName}" />
+						<Text text="{detail>/file/name}" visible="{= !${detail>/editing}}" />
+						<Input value="{detail>/newName}" visible="{detail>/editing}" />
+
+						<Label text="{i18n>colType}" />
+						<Text text="{detail>/file/typeText}" />
+
+						<Label text="MIME" />
+						<Text text="{detail>/file/mimeType}" />
+
+						<Label text="{i18n>colSize}" />
+						<Text text="{path: 'detail>/file/size', formatter: '.formatter.fileSize'}" />
+
+						<Label text="{i18n>created}" />
+						<Text text="{path: 'detail>/file/createdTime', formatter: '.formatter.dateTime'}" />
+
+						<Label text="{i18n>colModified}" />
+						<Text text="{path: 'detail>/file/modifiedTime', formatter: '.formatter.dateTime'}" />
+
+						<Label text="ID" />
+						<Text text="{detail>/file/fileId}" />
+					</f:SimpleForm>
+				</Panel>
+			</VBox>
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer />
+
+				<Button text="{i18n>preview}" icon="sap-icon://show" press=".onPreview"
+					visible="{= !${detail>/editing}}" />
+				<Button text="{i18n>download}" icon="sap-icon://download" press=".onDownload"
+					visible="{= !${detail>/editing}}" />
+				<Button text="{i18n>edit}" icon="sap-icon://edit" press=".onEdit"
+					visible="{= !${detail>/editing}}" />
+				<Button text="{i18n>delete}" icon="sap-icon://delete" type="Reject" press=".onDelete"
+					visible="{= !${detail>/editing}}" />
+				<Button text="{i18n>save}" type="Emphasized" press=".onSave" visible="{detail>/editing}" />
+				<Button text="{i18n>cancel}" press=".onCancelEdit" visible="{detail>/editing}" />
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

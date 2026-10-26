@@ -1,0 +1,147 @@
+<mvc:View
+	controllerName="com.duhamel.gdrivemanager.controller.Dashboard"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:card="sap.f.cards"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+	<Page id="dashboardPage" title="{i18n>appTitle}" busy="{stats>/busy}" class="gdPage">
+		<headerContent>
+			<Button icon="sap-icon://refresh" tooltip="{i18n>refresh}" press=".onRefresh" />
+			<Button icon="sap-icon://palette" tooltip="{i18n>toggleTheme}" press=".onToggleTheme" />
+		</headerContent>
+		<content>
+			<VBox class="sapUiResponsiveMargin">
+				<MessageStrip
+					text="{stats>/warning}"
+					type="Warning"
+					showIcon="true"
+					visible="{= !!${stats>/warning}}"
+					class="sapUiSmallMarginBottom" />
+
+				<!-- ================= Tuiles ================= -->
+				<Title text="{i18n>sectionTiles} (5)" level="H3" class="gdSection" />
+				<FlexBox wrap="Wrap" class="sapUiSmallMarginTop">
+					<GenericTile class="gdTile sapUiSmallMarginEnd sapUiSmallMarginBottom"
+						header="{i18n>tileTotal}" subheader="{i18n>tileTotalSub}" press=".onTypePress">
+						<customData><core:CustomData key="type" value="all" /></customData>
+						<TileContent>
+							<NumericContent value="{stats>/total}" icon="sap-icon://documents" withMargin="false" />
+						</TileContent>
+					</GenericTile>
+					<GenericTile class="gdTile sapUiSmallMarginEnd sapUiSmallMarginBottom"
+						header="{i18n>tileDocuments}" subheader="{i18n>tileDocumentsSub}" press=".onTypePress">
+						<customData><core:CustomData key="type" value="documents" /></customData>
+						<TileContent>
+							<NumericContent value="{stats>/documents}" icon="sap-icon://pdf-attachment" withMargin="false" />
+						</TileContent>
+					</GenericTile>
+					<GenericTile class="gdTile sapUiSmallMarginEnd sapUiSmallMarginBottom"
+						header="{i18n>tileImages}" subheader="{i18n>tileImagesSub}" press=".onTypePress">
+						<customData><core:CustomData key="type" value="image" /></customData>
+						<TileContent>
+							<NumericContent value="{stats>/images}" icon="sap-icon://picture" withMargin="false" />
+						</TileContent>
+					</GenericTile>
+					<GenericTile class="gdTile sapUiSmallMarginEnd sapUiSmallMarginBottom"
+						header="{i18n>tileVideos}" subheader="{i18n>tileVideosSub}" press=".onTypePress">
+						<customData><core:CustomData key="type" value="video" /></customData>
+						<TileContent>
+							<NumericContent value="{stats>/videos}" icon="sap-icon://attachment-video" withMargin="false" />
+						</TileContent>
+					</GenericTile>
+					<GenericTile class="gdTile sapUiSmallMarginEnd sapUiSmallMarginBottom"
+						header="{i18n>tileFolders}" subheader="{i18n>tileFoldersSub}" press=".onTypePress">
+						<customData><core:CustomData key="type" value="folder" /></customData>
+						<TileContent>
+							<NumericContent value="{stats>/folders}" icon="sap-icon://folder-full" withMargin="false" />
+						</TileContent>
+					</GenericTile>
+				</FlexBox>
+
+				<!-- ================= Cartes ================= -->
+				<Title text="{i18n>sectionCards} (3)" level="H3" class="gdSection sapUiSmallMarginTop" />
+				<FlexBox wrap="Wrap" class="sapUiSmallMarginTop">
+
+					<!-- Carte 1 : graphique en anneau -->
+					<f:Card class="gdCard sapUiSmallMarginEnd sapUiSmallMarginBottom" width="26rem">
+						<f:header>
+							<card:Header title="{i18n>cardDistribution}" subtitle="{i18n>cardDistributionSub}" />
+						</f:header>
+						<f:content>
+							<viz:VizFrame id="donutChart" vizType="donut" width="100%" height="20rem"
+	uiConfig="{applicationSet:'fiori'}" selectData=".onChartSelect">
+	<viz:dataset>
+		<viz.data:FlattenedDataset data="{stats>/byType}">
+			<viz.data:dimensions>
+				<viz.data:DimensionDefinition name="Type" value="{stats>label}" />
+			</viz.data:dimensions>
+			<viz.data:measures>
+				<viz.data:MeasureDefinition name="Fichiers" value="{stats>count}" />
+			</viz.data:measures>
+		</viz.data:FlattenedDataset>
+	</viz:dataset>
+	<viz:feeds>
+		<viz.feeds:FeedItem uid="size" type="Measure" values="Fichiers" />
+		<viz.feeds:FeedItem uid="color" type="Dimension" values="Type" />
+	</viz:feeds>
+</viz:VizFrame>
+						</f:content>
+					</f:Card>
+
+					<!-- Carte 2 : détail par type (cliquable) -->
+					<f:Card class="gdCard sapUiSmallMarginEnd sapUiSmallMarginBottom" width="26rem">
+						<f:header>
+							<card:Header title="{i18n>cardDetails}" subtitle="{i18n>cardDetailsSub}" />
+						</f:header>
+						<f:content>
+							<ScrollContainer height="20rem" vertical="true" horizontal="false">
+								<List items="{stats>/byType}" showSeparators="None" noDataText="{i18n>noData}">
+									<CustomListItem type="Active" press=".onTypePress">
+										<customData><core:CustomData key="type" value="{stats>key}" /></customData>
+										<VBox class="sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom">
+											<HBox alignItems="Center" class="sapUiTinyMarginBottom">
+												<core:Icon src="{stats>icon}" class="sapUiTinyMarginEnd" />
+												<Text text="{stats>label}" />
+											</HBox>
+											<ProgressIndicator class="gdBar" percentValue="{stats>percent}"
+												displayValue="{stats>display}" showValue="true" />
+										</VBox>
+									</CustomListItem>
+								</List>
+							</ScrollContainer>
+						</f:content>
+					</f:Card>
+
+					<!-- Carte 3 : derniers fichiers -->
+					<f:Card class="gdCard sapUiSmallMarginEnd sapUiSmallMarginBottom" width="26rem">
+						<f:header>
+							<card:Header title="{i18n>cardRecent}" subtitle="{i18n>cardRecentSub}" />
+						</f:header>
+						<f:content>
+							<VBox height="20rem" justifyContent="SpaceBetween">
+								<List items="{stats>/recent}" showSeparators="Inner" noDataText="{i18n>noData}">
+									<StandardListItem
+										title="{stats>name}"
+										description="{stats>typeText}"
+										icon="{stats>typeIcon}"
+										info="{path: 'stats>modifiedTime', formatter: '.formatter.dateTime'}"
+										type="Navigation"
+										press=".onRecentPress" />
+								</List>
+								<Toolbar>
+									<ToolbarSpacer />
+									<Button text="{i18n>viewAll}" type="Transparent" press=".onGoToFiles" />
+								</Toolbar>
+							</VBox>
+						</f:content>
+					</f:Card>
+
+				</FlexBox>
+			</VBox>
+		</content>
+	</Page>
+</mvc:View>

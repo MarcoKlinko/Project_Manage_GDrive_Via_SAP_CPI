@@ -1,0 +1,26 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog id="uploadDialog" title="{i18n>uploadTitle}" contentWidth="32rem" resizable="false"
+		busy="{list>/uploading}" afterOpen=".onUploadAfterOpen">
+		<content>
+			<VBox id="dropZone" alignItems="Center" justifyContent="Center"
+				class="gdDropZone sapUiSmallMargin">
+				<core:Icon src="sap-icon://upload-to-cloud" size="4rem" class="gdDropIcon" />
+				<Title text="{= ${list>/uploadFileName} ? ${list>/uploadFileName} : ${i18n>noFileSelected} }"
+					level="H3" class="sapUiSmallMarginTop" wrapping="true" />
+				<Text text="{= ${list>/uploadFileName} ? ${list>/uploadFileInfo} : ${i18n>dropHint} }"
+					textAlign="Center" class="sapUiTinyMarginTop" />
+				<Button text="{i18n>browse}" icon="sap-icon://open-folder" press=".onBrowse"
+					class="sapUiSmallMarginTop" />
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>upload}" type="Emphasized" icon="sap-icon://upload-to-cloud"
+				enabled="{= !!${list>/uploadFileName} }" press=".onConfirmUpload" />
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>cancel}" icon="sap-icon://decline" press=".onCancelUpload" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

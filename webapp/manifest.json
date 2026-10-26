@@ -1,0 +1,62 @@
+{
+	"_version": "1.65.0",
+	"sap.app": {
+		"id": "com.duhamel.gdrivemanager",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": { "version": "0.0.1" }
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+	},
+	"sap.ui5": {
+		"flexEnabled": true,
+		"dependencies": {
+			"minUI5Version": "1.153.0",
+			"libs": { "sap.m": {}, "sap.f": {}, "sap.viz": {}, "sap.ui.core": {}, "sap.ui.layout": {}, "sap.ui.unified": {} }
+		},
+		"contentDensities": { "compact": true, "cozy": true },
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.duhamel.gdrivemanager.i18n.i18n",
+					"supportedLocales": ["fr"],
+					"fallbackLocale": "fr"
+				}
+			}
+		},
+		"resources": { "css": [{ "uri": "css/style.css" }] },
+		"rootView": {
+			"viewName": "com.duhamel.gdrivemanager.view.App",
+			"type": "XML",
+			"id": "App",
+			"async": true
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"type": "View",
+				"viewType": "XML",
+				"path": "com.duhamel.gdrivemanager.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"transition": "slide",
+				"async": true
+			},
+			"routes": [
+				{ "name": "dashboard", "pattern": "", "target": "dashboard" },
+				{ "name": "fileList", "pattern": "files:?query:", "target": "fileList" },
+				{ "name": "fileDetail", "pattern": "files/{fileId}", "target": "fileDetail" }
+			],
+			"targets": {
+				"dashboard": { "id": "dashboard", "name": "Dashboard" },
+				"fileList": { "id": "fileList", "name": "FileList" },
+				"fileDetail": { "id": "fileDetail", "name": "FileDetail" }
+			}
+		}
+	}
+}

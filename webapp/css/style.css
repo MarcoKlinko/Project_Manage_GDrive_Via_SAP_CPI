@@ -1,0 +1,200 @@
+/* Titres de section (Tuiles / Cartes) */
+.gdSection {
+	color: var(--sapContent_LabelColor);
+}
+
+/* Cartes du dashboard */
+.gdCard {
+	border-radius: 1rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Barre de filtres */
+.gdFilterBar {
+	border-radius: 0.75rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.gdFileIcon {
+	color: var(--sapHighlightColor);
+}
+
+/* Zone de dépôt du dialogue d'import */
+.gdDropZone {
+	min-height: 14rem;
+	padding: 1.5rem;
+	border: 2px dashed var(--sapContent_ForegroundBorderColor);
+	border-radius: 1rem;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.gdDropZone.gdDropActive {
+	border-color: var(--sapHighlightColor);
+	background-color: var(--sapList_Hover_Background);
+}
+
+.gdDropIcon {
+	color: var(--sapHighlightColor);
+}
+
+/* =====================================================================
+   THÈME « VERRE » : fond + éléments translucides
+   ===================================================================== */
+
+/* --- Fond de la page (dégradé ; une image est possible, voir plus bas) --- */
+.gdPage.sapMPage {
+	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+		url("../img/background.jpeg") center / cover no-repeat fixed;
+}
+
+.gdPage.sapMPage > section {
+	background: transparent;
+}
+
+/* --- Barre de titre en verre --- */
+.gdPage .sapMPageHeader,
+.gdPage .sapMIBar.sapMPageHeader {
+	background: rgba(255, 255, 255, 0.55);
+	background: color-mix(in srgb, var(--sapBaseColor) 55%, transparent);
+	-webkit-backdrop-filter: blur(14px);
+	backdrop-filter: blur(14px);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* --- Titres de section posés directement sur le fond --- */
+.gdSection,
+.gdSection .sapMTitle {
+	color: #ffffff;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* --- Éléments « verre » : tuiles, cartes, filtres, tableau --- */
+.gdTile.sapMGT,
+.gdCard.sapFCard,
+.gdFilterBar.sapMPanel,
+.gdTable {
+	background: rgba(255, 255, 255, 0.55) !important;
+	background: color-mix(in srgb, var(--sapBaseColor) 55%, transparent) !important;
+	-webkit-backdrop-filter: blur(14px);
+	backdrop-filter: blur(14px);
+	border: 1px solid rgba(255, 255, 255, 0.45);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* Intérieur transparent pour laisser voir le verre */
+.gdCard .sapFCardHeader,
+.gdCard .sapFCardContent,
+.gdCard .sapMList,
+.gdCard .sapMLIB,
+.gdCard .sapMTB,
+.gdFilterBar .sapMPanelContent,
+.gdTable .sapMListTblHeader,
+.gdTable .sapMListHdr,
+.gdTable .sapMTB,
+.gdTable tr.sapMLIB {
+	background: transparent !important;
+}
+
+/* Survol des lignes */
+.gdTable tr.sapMLIB:hover,
+.gdCard .sapMLIB:hover {
+	background: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Tuiles : léger effet de relief au survol */
+.gdTile.sapMGT:hover {
+	background: rgba(255, 255, 255, 0.7) !important;
+	transform: translateY(-4px);
+}
+
+/* Graphique en anneau : fond transparent */
+.gdCard .sapVizFrame,
+.gdCard .sapVizFrame svg {
+	background: transparent !important;
+}
+
+/* Zone de dépôt du dialogue d'import */
+.gdDropZone {
+	background: rgba(255, 255, 255, 0.4);
+	background: color-mix(in srgb, var(--sapBaseColor) 40%, transparent);
+}
+
+
+/* =====================================================================
+   APERÇU D'UN FICHIER (fenêtre)
+   ===================================================================== */
+.gdPreviewDialog {
+	max-width: 95vw;
+}
+
+.gdPreviewDialog .sapMDialogScrollCont {
+	padding: 0;
+}
+
+.gdPreviewBox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 70vh;
+	background: rgba(0, 0, 0, 0.35);
+}
+
+.gdPreviewFrame {
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background: #fff;
+}
+
+.gdPreviewImg,
+.gdPreviewMedia {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.gdPreviewText {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 1rem;
+	overflow: auto;
+	box-sizing: border-box;
+	color: #fff;
+	white-space: pre-wrap;
+}
+
+.gdPreviewMsg {
+	padding: 2rem;
+	text-align: center;
+	color: #fff;
+	font-size: 1rem;
+}
+
+/* =====================================================================
+   CONFIRMATION DE SUPPRESSION : bouton « Delete / Supprimer » en rouge
+   ===================================================================== */
+.gdDeleteBox .sapMBtn.sapMBtnEmphasized,
+.gdDeleteBox .sapMBtn.sapMBtnEmphasized .sapMBtnInner {
+	background: #d20a0a !important;
+	border-color: #d20a0a !important;
+	color: #ffffff !important;
+}
+
+.gdDeleteBox .sapMBtn.sapMBtnEmphasized:hover .sapMBtnInner,
+.gdDeleteBox .sapMBtn.sapMBtnEmphasized.sapMBtnHoverable:hover .sapMBtnInner {
+	background: #a80808 !important;
+	border-color: #a80808 !important;
+}
+
+.gdDeleteBox .sapMBtn.sapMBtnEmphasized:active .sapMBtnInner,
+.gdDeleteBox .sapMBtn.sapMBtnEmphasized.sapMBtnActive .sapMBtnInner {
+	background: #8a0606 !important;
+	border-color: #8a0606 !important;
+}
+
+.gdDeleteBox .sapMBtn.sapMBtnEmphasized .sapMBtnContent,
+.gdDeleteBox .sapMBtn.sapMBtnEmphasized .sapMBtnIcon {
+	color: #ffffff !important;
+}
