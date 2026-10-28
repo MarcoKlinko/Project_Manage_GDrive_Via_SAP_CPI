@@ -44,6 +44,7 @@ sap.ui.define([
 		/** Ajoute le libellé et l’icône du type à un fichier. */
 		decorate: function (file) {
 			return Object.assign({}, file, {
+				modifiedTs: file.modifiedTime ? new Date(file.modifiedTime).getTime() : 0,
 				typeText: this.getText("type." + file.category),
 				typeIcon: FileService.getIcon(file.category)
 			});

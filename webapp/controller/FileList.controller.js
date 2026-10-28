@@ -53,7 +53,7 @@ sap.ui.define([
 
 		/* ------------------------------ Filtres ------------------------------ */
 
-		/** Combine type, recherche texte et période de modification. */
+				/** Combine type, recherche texte et période de modification. */
 		applyFilters: function () {
 			const binding = this.byId("fileTable").getBinding("items");
 			if (!binding) { return; }
@@ -65,9 +65,12 @@ sap.ui.define([
 			const filters = [];
 
 			if (type === "documents") {
+				// « Documents » = PDF OU Office OU Google Docs OU texte (opérateurs standard)
 				filters.push(new Filter({
-					path: "category",
-					test: (value) => ["pdf", "office", "google", "text"].includes(value)
+					filters: ["pdf", "office", "google", "text"].map(
+						(key) => new Filter("category", FilterOperator.EQ, key)
+					),
+					and: false
 				}));
 			} else if (type && type !== "all") {
 				filters.push(new Filter("category", FilterOperator.EQ, type));
@@ -87,13 +90,7 @@ sap.ui.define([
 			if (from && to) {
 				const end = new Date(to);
 				end.setHours(23, 59, 59, 999);
-				filters.push(new Filter({
-					path: "modifiedTime",
-					test: (value) => {
-						const d = new Date(value);
-						return !isNaN(d.getTime()) && d >= from && d <= end;
-					}
-				}));
+				filters.push(new Filter("modifiedTs", FilterOperator.BT, from.getTime(), end.getTime()));
 			}
 
 			binding.filter(filters.length ? new Filter({ filters: filters, and: true }) : []);
